@@ -31,11 +31,14 @@ public class CapService {
     }
     //UPDATE ONLY EMAIL
     public Cap updateCapEmail(Long id, CapDTO capDTO){
-        Cap existingCap = capRepository.findById(id).orElseThrow(()-> new CapNotFoundException("Cap con id " +id+" no encontrado."));
-        if (capDTO.getEmail()!=null){
-            existingCap.setEmail(capDTO.getEmail());
+        Optional<Cap> existingCap = capRepository.findById(id);
+        if (existingCap.isPresent()){
+            Cap savedCap = existingCap.get();
+            savedCap.setEmail(capDTO.getEmail());
+            return capRepository.save(savedCap);
+        }else {
+            throw new CapNotFoundException("Cap con id " +id+" no encontrado.");
         }
-        return capRepository.save(existingCap);
     }
     //UPDATE CAP ALL INFO
     public Cap updateCapAllInfo(Long id, Cap cap){
