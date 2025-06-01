@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CapRepository extends JpaRepository<Cap, Long> {
+    Cap findCapByName(String name);
 }
